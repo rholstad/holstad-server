@@ -6,10 +6,10 @@ var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 
 var api = new ParseServer({
-  databaseURI: process.env.MONGODB_URI
+  databaseURI: process.env.MONGODB_URI,
   cloud: process.env.CLOUD_CODE_MAIN,
   appId: process.env.APP_ID,
-  masterKey: process.env.MASTER_KEY
+  masterKey: process.env.MASTER_KEY,
   serverURL: process.env.SERVER_URL
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server

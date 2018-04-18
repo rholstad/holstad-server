@@ -39,6 +39,3 @@ var port = process.env.PORT;
 app.listen(port, function() {
     console.log(`holstad-server is running on ${port}`);
 });
-
-// This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(httpServer);

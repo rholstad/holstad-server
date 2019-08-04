@@ -10,7 +10,9 @@ var api = new ParseServer({
   cloud: process.env.CLOUD_CODE_MAIN,
   appId: process.env.APP_ID,
   masterKey: process.env.MASTER_KEY,
-  serverURL: process.env.SERVER_URL
+  serverURL: process.env.SERVER_URL,
+  publicServerURL: process.env.SERVER_URL,
+  push: JSON.parse(process.env.PARSE_SERVER_PUSH),
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:

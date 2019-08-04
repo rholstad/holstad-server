@@ -7,7 +7,7 @@ Parse.Cloud.define("upcLookup", function(request, response) {
 		}
 	}).then(httpResponse => {
 		const data = httpResponse.data;
-		if (httpResponse.status == 200 && data.count > 0) {
+		if (httpResponse.status == 200 && data.total > 0) {
 			const item = data.items[0];
 			response.success({
 				name: item.title,

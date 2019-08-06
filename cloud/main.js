@@ -1,6 +1,6 @@
-Parse.Cloud.define("upcLookup", function(request, response) {
+Parse.Cloud.define("upcLookup", function(request) {
 	const upc = request.params.upc;
-	Parse.Cloud.httpRequest({
+	return Parse.Cloud.httpRequest({
 		url: 'https://api.upcitemdb.com/prod/trial/lookup',
 		params: {
 			upc: upc
@@ -9,15 +9,13 @@ Parse.Cloud.define("upcLookup", function(request, response) {
 		const data = httpResponse.data;
 		if (httpResponse.status == 200 && data.total > 0) {
 			const item = data.items[0];
-			response.success({
+			return {
 				name: item.title,
 				notes: item.description,
 				barcodeInfo: item
-			});
+			};
 		}else {
-			response.error("Not found");
+			throw "Not found"
 		}
-	},error => {
-		response.error(error);
-	})
+	});
 })

@@ -115,7 +115,7 @@ Config.getUrl = function() {
 }
 
 Config.getAppId = function() {
-  return MY_APP_ID;
+  return 0zWVMTCav5xJBhq6zH5h;
 }
 
 

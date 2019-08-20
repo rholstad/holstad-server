@@ -1,22 +1,25 @@
 var app = angular.module("Collection", []); 
 app.controller("myCtrl", function($scope) {
-  $scope.bottles = [];
   XHR.setCallback(function(data){
     const results = JSON.parse(data).results;
     console.log(results);
-    $scope.bottles = results;
-    $scope.$digest();
+    $scope.$apply(function() {
+      $scope.bottles = results;
+    });
   });
   XHR.GET('/parse/classes/RootBeer');
+
+  $scope.itemSelected = function(item) {
+    $scope.selection = item;
+    if (item.photo !== undefined) {
+      console.log(item.photo.url);
+    }
+  }
 });
 
 /**
- * Store objectId and other references
+ * Config
  */
-
-var Store = {
-  objectId: ""
-};
 
 var Config = {}
 
@@ -47,14 +50,6 @@ XHR.setCallback = function(callback) {
       callback(_self.xhttp.responseText);
     }
   };
-}
-
-XHR.POST = function(path, callback) {
-  var seed = {"score":1337,"playerName":"Sean Plott","cheatMode":false}
-  this.xhttp.open("POST", Config.getUrl() + path, true);
-  this.xhttp.setRequestHeader("X-Parse-Application-Id", Config.getAppId());
-  this.xhttp.setRequestHeader("Content-type", "application/json");
-  this.xhttp.send(JSON.stringify(seed));
 }
 
 XHR.GET = function(path, callback) {

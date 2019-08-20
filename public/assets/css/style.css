@@ -47,16 +47,29 @@
   margin-top: 16px;
 }
 
-.rating {
-  align-items: center;
-  width: 50%;
-  height: 100px;
-}
-
 .checked {
   color: #ffc107;
 }
 
 hr {
   border-top-width: 2px;
+}
+
+@media handheld, screen and (max-width: 500px) {
+  .Container {
+    overflow: auto;
+  }
+
+  .Collection {
+    width: 100%;
+    min-width: 100% - 16px;
+    z-index: -1;
+  }
+
+  .Info {
+    padding: 0px;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+  }
 }

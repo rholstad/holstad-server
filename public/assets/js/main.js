@@ -1,5 +1,6 @@
 var app = angular.module("Collection", []); 
 app.controller("myCtrl", function($scope) {
+  $scope.compact = window.screen.width <= 500;
   XHR.setCallback(function(data){
     const results = JSON.parse(data).results;
     console.log(results);
@@ -16,6 +17,31 @@ app.controller("myCtrl", function($scope) {
     }
   }
 });
+
+app.directive('myDirective', ['$window', function ($window) {
+
+  return {
+     link: link,
+     restrict: 'E',
+     template: '<div>window size: {{width}}px</div>'
+  };
+
+  function link(scope, element, attrs){
+
+    scope.width = $window.innerWidth;
+
+    angular.element($window).bind('resize', function(){
+
+      scope.compact = $window.innerWidth <= 500;
+
+      // manual $digest required as resize event
+      // is outside of angular
+      scope.$digest();
+    });
+
+  }
+
+}]);
 
 /**
  * Config

@@ -22,7 +22,7 @@
       <li ng-repeat="x in bottles" class="w3-padding-16" ng-click="itemSelected(x)">{{x.name}}</li>
     </ul>
   </div>
-  <div ng-if="selection !== undefined" class="Info">
+  <div ng-if="!compact && selection !== undefined" class="Info">
     <header class="w3-container w3-light-grey w3-padding-16">
         <h3>{{ selection.name}}</h3>
         <div ng-if="selection.rating !== undefined">
@@ -39,6 +39,26 @@
     </div>
     <hr>
   </div>
+  <div ng-if="compact && selection !== undefined" class="Info">
+      <header class="w3-container w3-light-grey w3-padding-16">
+          <h3>{{ selection.name}}</h3>
+          <div ng-if="selection.rating !== undefined">
+              <span ng-if="selection.rating > 0" class="fa fa-star" ng-class="{'fa-star-half': selection.rating == 0.5, 'checked': selection.rating >= 0.5}"></span>
+              <span ng-if="selection.rating > 1" class="fa fa-star" ng-class="{'fa-star-half': selection.rating == 1.5, 'checked': selection.rating >= 1.5}"></span>
+              <span ng-if="selection.rating > 2" class="fa fa-star" ng-class="{'fa-star-half': selection.rating == 2.5, 'checked': selection.rating >= 2.5}"></span>
+              <span ng-if="selection.rating > 3" class="fa fa-star" ng-class="{'fa-star-half': selection.rating == 3.5, 'checked': selection.rating >= 3.5}"></span>
+              <span ng-if="selection.rating > 4" class="fa fa-star" ng-class="{'fa-star-half': selection.rating == 4.5, 'checked': selection.rating >= 4.5}"></span>
+          </div>
+      </header>
+      <div class="w3-padding-16 info-container">
+          <img ng-if="selection.photo !== undefined" class="image" src="{{ selection.photo.url }}" style="max-height: 100%">
+          <span class="notes" style="margin-left: 16px;">{{ selection.notes }}</span>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>
+  
 </div>
 
 </body>

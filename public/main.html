@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="public/assets/js/main.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div ng-app="Collection" ng-cloak ng-controller="myCtrl" class="w3-card-2 w3-margin" style="max-width:400px;">
+  <header class="w3-container w3-light-grey w3-padding-16">
+    <h3>Collection ({{bottles.length}})</h3>
+  </header>
+  <ul class="w3-ul">
+    <li ng-repeat="x in bottles" class="w3-padding-16">{{x.name}}</li>
+  </ul>
+  <div class="w3-container w3-light-grey w3-padding-16">
+    <p class="w3-text-red">{{errortext}}</p>
+  </div>
+</div>
+
+</body>
+</html>

@@ -4,7 +4,6 @@
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
-const fs = require('fs');
 
 var api = new ParseServer({
   databaseURI: process.env.MONGODB_URI,
@@ -28,10 +27,12 @@ app.use("/parse", api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
-  var content = fs.readFileSync('./public/assets/js/script.js', 'utf8');
-  content = content.replace("MY_APP_ID", "\"" + process.env.APP_ID + "\"");
-  fs.writeFileSync('./public/assets/js/injected-script.js', content, 'utf8');
-  res.sendFile(path.join(__dirname, '/public/test.html'));
+  res.sendFile(path.join(__dirname, '/public/main.html'));
+  // res.status(200).send('I dream of being a website.  Please star the parse-server repo on GitHub!');
+});
+
+app.get('/main', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/main.html'));
 });
 
 // There will be a test page available on the /test path of your server url

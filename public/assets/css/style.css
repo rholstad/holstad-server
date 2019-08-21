@@ -1,7 +1,7 @@
 .Container {
   display: flex;
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
   position: relative;
   width: 100%;
   backface-visibility: hidden;
@@ -39,7 +39,7 @@
   align-items: center;
 }
 
-.info-container image {
+.image {
   max-height: 100%;
 }
 
@@ -59,7 +59,7 @@ hr {
 
 @media handheld, screen and (max-width: 500px) {
   .Collection {
-    position: absolute;
+    position: fixed;
     width: 100%;
     min-width: unset;
     height: 100%;
@@ -72,5 +72,9 @@ hr {
     height: 100%;
     overflow: scroll;
     position: absolute;
+  }
+
+  .image {
+    max-width: 100%
   }
 }

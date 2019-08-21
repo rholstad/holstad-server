@@ -27,7 +27,9 @@ app.controller("myCtrl", function($scope, $route, $routeParams, $location) {
 
   $scope.itemSelected = function(item) {
     $scope.selection = item;
-    initialize();
+    if (item.purchaseGeoLocation !== undefined || item.breweryGeoLocation !== undefined) {
+      initialize();
+    }
   }
 
   $scope.close = function() {

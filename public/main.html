@@ -41,7 +41,7 @@
         <span class="notes" style="margin-left: 16px;">{{ selection.notes }}</span>
     </div>
     <hr>
-    <div class="w3-padding-16 info-container" style="height: 300px">
+    <div ng-if="selection.purchaseGeoLocation !== undefined || selection.breweryGeoLocation !== undefined" class="w3-padding-16 info-container" style="min-height: 300px; height: 50%">
       <div id="map" style="height: 100%; width: 100%;"></div>
     </div>
   </div>

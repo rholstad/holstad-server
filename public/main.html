@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <base href="/">
   <title>Holstad Family Root Beer Collection</title>
   <meta name="viewport" content="width=device-width">
   <meta property="og:title" content="Steph and Ryan's Root Beers" />
@@ -11,16 +12,17 @@
 </head>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.6.9/angular-route.js"></script>
 <script src="public/assets/js/main.js"></script>
 <body>
 
-<div ng-app="Collection" ng-cloak ng-controller="myCtrl" class="Container">
+<div ng-app="Collection" ng-cloak id="outer" ng-controller="myCtrl" class="Container">
   <div class="w3-card-2 Collection">
     <header class="w3-container w3-light-grey w3-padding-16">
       <h3>Collection ({{bottles.length}})</h3>
     </header>
     <ul class="w3-ul">
-      <li ng-repeat="x in bottles" class="w3-padding-16" ng-click="itemSelected(x)">{{x.name}}</li>
+      <li ng-repeat="x in bottles" class="w3-padding-16" ng-click="itemSelected(x)">{{x.name}}<span class="w3-right" style="font-size: xx-small">></span></li>
     </ul>
   </div>
   <div ng-if="selection !== undefined" class="Info">
@@ -34,11 +36,14 @@
             <span ng-if="selection.rating > 4" class="fa fa-star" ng-class="{'fa-star-half': selection.rating == 4.5, 'checked': selection.rating >= 4.5}"></span>
         </div>
     </header>
-    <div class="w3-padding-16 info-container">
+    <div ng-model="selection"  ng-change="initialize()" class="w3-padding-16 info-container">
         <img ng-if="selection.photo !== undefined" class="image" src="{{ selection.photo.url }}" style="max-height: 100%">
         <span class="notes" style="margin-left: 16px;">{{ selection.notes }}</span>
     </div>
     <hr>
+    <div class="w3-padding-16 info-container" style="height: 300px">
+      <div id="map" style="height: 100%; width: 100%;"></div>
+    </div>
   </div>
 </div>
   

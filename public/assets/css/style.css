@@ -9,12 +9,13 @@
 }
 
 .Collection {
-  overflow: auto;
+  overflow: scroll;
   height: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   width: 20%;
   min-width: 200px;
+  margin: 16px!important;
 }
 
 .Collection::-webkit-scrollbar {
@@ -27,6 +28,7 @@
   padding: 16px!important;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
+  background-color: white;
   flex: 1;
 }
 
@@ -56,20 +58,19 @@ hr {
 }
 
 @media handheld, screen and (max-width: 500px) {
-  .Container {
-    overflow: auto;
-  }
-
   .Collection {
+    position: absolute;
     width: 100%;
-    min-width: 100% - 16px;
-    z-index: -1;
+    min-width: unset;
+    height: 100%;
+    margin: 0px!important;
   }
 
   .Info {
-    padding: 0px;
+    padding: 0px!important;
     width: 100%;
-    height: auto;
-    overflow: auto;
+    height: 100%;
+    overflow: scroll;
+    position: absolute;
   }
 }

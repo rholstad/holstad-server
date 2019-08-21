@@ -1,6 +1,6 @@
 var app = angular.module("Collection", []); 
 app.controller("myCtrl", function($scope) {
-  $scope.compact = window.screen.width <= 500;
+  $scope.compact = window.innerWidth <= 500;
   XHR.setCallback(function(data){
     const results = JSON.parse(data).results;
     console.log(results);
@@ -15,6 +15,10 @@ app.controller("myCtrl", function($scope) {
     if (item.photo !== undefined) {
       console.log(item.photo.url);
     }
+  }
+
+  $scope.close = function() {
+    $scope.selection = undefined;
   }
 });
 

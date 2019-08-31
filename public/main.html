@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="Collection">
 <head>
   <base href="/">
   <title>Holstad Family Root Beer Collection</title>
   <meta name="viewport" content="width=device-width">
-  <meta property="og:title" content="Steph and Ryan's Root Beers" />
+  <meta property="og:title" content="{{ metaTitle() }}" />
   <meta property="og:image" content="http://holstad-server.herokuapp.com/public/assets/images/IMG_0647.JPG" />
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link href="/public/assets/css/style.css" rel="stylesheet">
@@ -26,6 +26,7 @@
     </ul>
   </div>
   <div ng-if="selection !== undefined" class="Info">
+    <meta property="og:title" content="{{selection.name}}" />
     <header class="w3-container w3-light-grey w3-padding-16">
         <h3>{{ selection.name}}<span ng-click="close()" ng-if="compact" class="w3-right">x</span></h3>
         <div ng-if="selection.rating !== undefined">
@@ -37,7 +38,7 @@
         </div>
     </header>
     <div ng-model="selection"  ng-change="initialize()" class="w3-padding-16 info-container">
-        <img ng-if="selection.photo !== undefined" class="image" src="{{ selection.photo.url }}" style="max-height: 100%">
+        <img ng-if="selection.photo !== undefined" class="image" src="{{ selection.photo.url }}">
         <span class="notes" style="margin-left: 16px;">{{ selection.notes }}</span>
     </div>
     <hr>

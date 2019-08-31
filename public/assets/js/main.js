@@ -8,6 +8,14 @@ app.controller("myCtrl", function($scope, $route, $routeParams, $location) {
   $scope.$location = $location;
   $scope.$routeParams = $routeParams;
 
+  $scope.metaTitle = function() {
+    if ($scope.selection !== undefined) {
+      return $scope.selection.name;
+    }else {
+      return "Steph and Ryan's Root Beer Collection";
+    }
+  }
+
   XHR.setCallback(function(data){
     const results = JSON.parse(data).results;
     $scope.$apply(function() {

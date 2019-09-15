@@ -180,7 +180,8 @@ function initMap() {
     }
   });
 
-  var scope = angular.element($("#outer")).scope();
+  var sel = 'div[ng-controller="myCtrl"]';
+  var scope = angular.element(sel).scope();
 
   // Load the locations' GeoJSON onto the map.
   if (scope.selection.purchaseGeoLocation !== undefined) {

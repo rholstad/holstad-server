@@ -118,6 +118,7 @@ XHR.setCallback = function(callback) {
 XHR.GET = function(path, callback) {
   let url = new URL(Config.getUrl() + path);
   url.searchParams.set("order","name");
+  url.searchParams.set("limit", 1000);
   this.xhttp.open("GET", url);
   this.xhttp.setRequestHeader("X-Parse-Application-Id", Config.getAppId());
   this.xhttp.setRequestHeader("Content-type", "application/json");

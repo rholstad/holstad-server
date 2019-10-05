@@ -53,30 +53,24 @@
         <h3>New Bottle<span ng-click="close()" ng-if="compact" class="w3-right close">x</span></h3>
     </header>
     <div class="New">
-      <form>
+      <form onsubmit="submitNew()">
         Name:<br>
-        <input type="text" name="name">
+        <input type="text" id="name" autocapitalize="words" required>
         <br>
         Purchase Date:<br>
-        <input type="date" name="purchaseDate">
+        <input type="date" id="purchaseDate">
         <br>
         Rating:<br>
-        <input type="number" name="rating" step="0.5" min="0.0" max="5.0">
+        <input type="number" id="rating" step="0.5" min="0.0" max="5.0">
         <br>
         Sugars (grams per 12 oz):<br>
-        <input type="number" name="sugars">
-        <br>
-        Purchase Location:<br>
-        <input type="search" name="purchaseLocation">
-        <br>
-        Brewery Location:<br>
-        <input type="search" name="breweyLocation">
+        <input type="number" id="sugars" inputmode="numeric">
         <br>
         Notes:<br>
-        <input type="text" name="notes">
+        <input type="text" id="notes">
         <br>
         Photo:<br>
-        <input type="file" name="image">
+        <input type="file" id="image" accept="image/*" capture>
         <br><br>
         <input type="submit">
       </form>

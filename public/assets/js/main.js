@@ -17,7 +17,7 @@ app.controller("myCtrl", function($scope, $route, $routeParams, $location) {
     }
   }
 
-  XHR.setCallback(function(data){
+  XHR.GET('/parse/classes/RootBeer', function(data) {
     const results = JSON.parse(data).results;
     $scope.$apply(function() {
       $scope.bottles = results;
@@ -32,8 +32,6 @@ app.controller("myCtrl", function($scope, $route, $routeParams, $location) {
     });
   });
 
-  XHR.GET('/parse/classes/RootBeer');
-
   $scope.itemSelected = function(item) {
     $scope.selection = item;
     if (item.purchaseGeoLocation !== undefined || item.breweryGeoLocation !== undefined) {
@@ -43,13 +41,13 @@ app.controller("myCtrl", function($scope, $route, $routeParams, $location) {
 
   $scope.addPressed = function() {
     $scope.addNew = true;
+    $scope.selection = undefined;
   }
 
   $scope.close = function() {
     $scope.selection = undefined;
     $scope.addNew = false;
   }
-  
 });
 
 app.directive('myDirective', ['$window', function ($window) {
@@ -86,6 +84,100 @@ function loadBottle(item) {
   }, 0);
 }
 
+function submitNew() {
+  const value = function(id) {
+    let val = document.getElementById(id).value;
+    return val.length > 0 ? val : undefined;
+  }
+  const number = function(id) {
+    let val = value(id);
+    return val ? parseFloat(val) : undefined;
+  }
+  const date = function(id) {
+    let val = value(id);
+    if (val) {
+      let date = new Date();
+      let selection = new Date(val);
+      date.setFullYear(selection.getUTCFullYear);
+      date.setMonth(selection.getUTCMonth);
+      date.setDate(selection.getUTCDate);
+      return date;
+    }else {
+      return undefined;
+    }
+  }
+  const file = function(id) {
+    return document.getElementById(id).files[0];
+  }
+  
+  const name = value("name");
+  const rating = number("rating");
+  const sugars = number("sugars");
+  const notes = value("notes");
+  const purchaseDate = date("purchaseDate");
+  const image = file("image");
+
+  let data = {name: name};
+
+  if (rating) {
+    data.rating = rating;
+  }
+
+  if (sugars) {
+    data.sugars = sugars;
+  }
+
+  if (notes) {
+    data.notes = notes;
+  }
+
+  if (purchaseDate) {
+    data.purchaseDate = purchaseDate
+  }
+
+  if (image) {
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(image);
+    reader.onload = function(e) {
+        XHR.FILE('image.jpeg',e.target.result, function(callback) {
+          let callbackData = JSON.parse(callback);
+          data.photo = {
+            name: callbackData.name,
+            url: callbackData.url,
+            __type: 'File'
+          }
+          XHR.POST('/parse/classes/RootBeer', data, function(callback) {
+            refresh();
+          });
+        });
+    };
+  }else {
+    XHR.POST('/parse/classes/RootBeer', data, function(callback) {
+      refresh();
+    });
+  }
+}
+
+function refresh() {
+  var scope = angular.element($("#outer")).scope();
+  scope.selection = undefined;
+  scope.addNew = false;
+  XHR.GET('/parse/classes/RootBeer', function(data) {
+    const results = JSON.parse(data).results;
+    scope.$apply(function() {
+      scope.bottles = results;
+      if (scope.$location.search().bottle !== undefined) {
+        var bottle = results.filter(function(bottle) {
+          return bottle.name == scope.$location.search().bottle;
+        })[0];
+        if (bottle !== undefined) {
+          loadBottle(bottle);
+        }
+      }
+    });
+  });
+}
+
 /**
  * Config
  */
@@ -116,19 +208,41 @@ XHR.setCallback = function(callback) {
   var _self = this;
   this.xhttp.onreadystatechange = function() {
     if (_self.xhttp.readyState == 4 && _self.xhttp.status >= 200 && _self.xhttp.status <= 299) {
-      callback(_self.xhttp.responseText);
+      if (callback) {
+        callback(_self.xhttp.responseText);
+      }
     }
   };
 }
 
 XHR.GET = function(path, callback) {
+  XHR.setCallback(callback);
   let url = new URL(Config.getUrl() + path);
   url.searchParams.set("order","name");
   url.searchParams.set("limit", 1000);
-  this.xhttp.open("GET", url);
+  this.xhttp.open("GET", url, true);
   this.xhttp.setRequestHeader("X-Parse-Application-Id", Config.getAppId());
   this.xhttp.setRequestHeader("Content-type", "application/json");
   this.xhttp.send(null);
+}
+
+XHR.POST = function(path, data, callback) {
+  XHR.setCallback(callback);
+  let url = new URL(Config.getUrl() + path);
+  url.data = data;
+  this.xhttp.open("POST", url), true;
+  this.xhttp.setRequestHeader("X-Parse-Application-Id", Config.getAppId());
+  this.xhttp.setRequestHeader("Content-type", "application/json");
+  this.xhttp.send(JSON.stringify(data));
+}
+
+XHR.FILE = function(filename, data, callback) {
+  XHR.setCallback(callback);
+  let url = new URL(Config.getUrl() + '/parse/files/' + filename);
+  this.xhttp.open("POST", url, true);
+  this.xhttp.setRequestHeader("X-Parse-Application-Id", Config.getAppId());
+  this.xhttp.setRequestHeader("Content-type", "image/jpeg");
+  this.xhttp.send(data);
 }
 
 /**

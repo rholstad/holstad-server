@@ -55,10 +55,16 @@
     <div class="New">
       <form onsubmit="submitNew()">
         Name:<br>
-        <input type="text" id="name" autocapitalize="words" required>
+        <input type="text" id="name" autocapitalize="on" required>
         <br>
         Purchase Date:<br>
         <input type="date" id="purchaseDate">
+        <br>
+        Purchase Location:<br>
+        <input type="text" id="purchaseLocation">
+        <br>
+        Brewery Location:<br>
+        <input type="text" id="breweryLocation">
         <br>
         Rating:<br>
         <input type="number" id="rating" step="0.5" min="0.0" max="5.0">
@@ -76,8 +82,13 @@
       </form>
     </div>
   </div>
+  <div class="my-loading-absolute" ng-if="loading" style="width: 100%;">
+    <div class="loading-bg">
+      <img src="/public/assets/images/loader.gif"/>
+    </div>
+  </div>
 </div>
-  
+
 </div>
 
 </body>

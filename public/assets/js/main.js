@@ -85,77 +85,90 @@ function loadBottle(item) {
 }
 
 function submitNew() {
-  const value = function(id) {
-    let val = document.getElementById(id).value;
-    return val.length > 0 ? val : undefined;
-  }
-  const number = function(id) {
-    let val = value(id);
-    return val ? parseFloat(val) : undefined;
-  }
-  const date = function(id) {
-    let val = value(id);
-    if (val) {
-      let date = new Date();
-      let selection = new Date(val);
-      date.setFullYear(selection.getUTCFullYear());
-      date.setMonth(selection.getUTCMonth());
-      date.setDate(selection.getUTCDate());
-      return date;
-    }else {
-      return undefined;
+  load(true);
+  setTimeout(function() {
+    const value = function(id) {
+      let val = document.getElementById(id).value;
+      return val.length > 0 ? val : undefined;
     }
-  }
-  const file = function(id) {
-    return document.getElementById(id).files[0];
-  }
+    const number = function(id) {
+      let val = value(id);
+      return val ? parseFloat(val) : undefined;
+    }
+    const date = function(id) {
+      let val = value(id);
+      if (val) {
+        let date = new Date();
+        let selection = new Date(val);
+        date.setFullYear(selection.getUTCFullYear());
+        date.setMonth(selection.getUTCMonth());
+        date.setDate(selection.getUTCDate());
+        return {__type:'Date',iso:date.toISOString()};
+      }else {
+        return undefined;
+      }
+    }
+    const file = function(id) {
+      return document.getElementById(id).files[0];
+    }
+    
+    const name = value("name");
+    const rating = number("rating");
+    const sugars = number("sugars");
+    const notes = value("notes");
+    const purchaseDate = date("purchaseDate");
+    const purchaseLocation = value("purchaseLocation");
+    const breweryLocation = value("breweryLocation");
+    const image = file("image");
   
-  const name = value("name");
-  const rating = number("rating");
-  const sugars = number("sugars");
-  const notes = value("notes");
-  const purchaseDate = date("purchaseDate");
-  const image = file("image");
-
-  let data = {name: name};
-
-  if (rating) {
-    data.rating = rating;
-  }
-
-  if (sugars) {
-    data.sugars = sugars;
-  }
-
-  if (notes) {
-    data.notes = notes;
-  }
-
-  if (purchaseDate) {
-    data.purchaseDate = purchaseDate
-  }
-
-  if (image) {
-    var reader = new FileReader();
-    reader.readAsArrayBuffer(image);
-    reader.onload = function(e) {
-        XHR.FILE('image.jpeg',e.target.result, function(callback) {
-          let callbackData = JSON.parse(callback);
-          data.photo = {
-            name: callbackData.name,
-            url: callbackData.url,
-            __type: 'File'
-          }
-          XHR.POST('/parse/classes/RootBeer', data, function(callback) {
-            refresh();
+    let data = {name: name};
+  
+    if (rating) {
+      data.rating = rating;
+    }
+  
+    if (sugars) {
+      data.sugars = sugars;
+    }
+  
+    if (notes) {
+      data.notes = notes;
+    }
+  
+    if (purchaseDate) {
+      data.purchaseDate = purchaseDate
+    }
+  
+    if (purchaseLocation) {
+      data.purchaseLocation = purchaseLocation;
+    }
+  
+    if (breweryLocation) {
+      data.breweryLocation = breweryLocation;
+    }
+  
+    if (image) {
+      var reader = new FileReader();
+      reader.readAsArrayBuffer(image);
+      reader.onload = function(e) {
+          XHR.FILE('image.jpeg',e.target.result, function(callback) {
+            let callbackData = JSON.parse(callback);
+            data.photo = {
+              name: callbackData.name,
+              url: callbackData.url,
+              __type: 'File'
+            }
+            XHR.POST('/parse/classes/RootBeer', data, function(callback) {
+              refresh();
+            });
           });
-        });
-    };
-  }else {
-    XHR.POST('/parse/classes/RootBeer', data, function(callback) {
-      refresh();
-    });
-  }
+      };
+    }else {
+      XHR.POST('/parse/classes/RootBeer', data, function(callback) {
+        refresh();
+      });
+    }
+  }, 0);
 }
 
 function refresh() {
@@ -174,8 +187,14 @@ function refresh() {
           loadBottle(bottle);
         }
       }
+      load(false);
     });
   });
+}
+
+function load(isLoading) {
+  var scope = angular.element($("#outer")).scope();
+  scope.loading = isLoading;
 }
 
 /**

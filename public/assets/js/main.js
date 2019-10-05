@@ -98,9 +98,9 @@ function submitNew() {
     if (val) {
       let date = new Date();
       let selection = new Date(val);
-      date.setFullYear(selection.getUTCFullYear);
-      date.setMonth(selection.getUTCMonth);
-      date.setDate(selection.getUTCDate);
+      date.setFullYear(selection.getUTCFullYear());
+      date.setMonth(selection.getUTCMonth());
+      date.setDate(selection.getUTCDate());
       return date;
     }else {
       return undefined;

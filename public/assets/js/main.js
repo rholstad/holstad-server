@@ -1,4 +1,5 @@
 var app = angular.module("Collection", ['ngRoute']); 
+
 app.config(['$locationProvider', function($locationProvider) {
   $locationProvider.html5Mode(true);
 }]);
@@ -40,8 +41,13 @@ app.controller("myCtrl", function($scope, $route, $routeParams, $location) {
     }
   }
 
+  $scope.addPressed = function() {
+    $scope.addNew = true;
+  }
+
   $scope.close = function() {
     $scope.selection = undefined;
+    $scope.addNew = false;
   }
   
 });

@@ -19,8 +19,9 @@
 
 <div ng-app="Collection" ng-cloak id="outer" ng-controller="myCtrl" class="Container">
   <div class="w3-card-2 Collection">
-    <header class="w3-container w3-light-grey w3-padding-16">
-      <h3>Collection ({{bottles.length}})</h3>
+    <header class="w3-container w3-light-grey w3-padding-16" style="display: flex; justify-content: space-between">
+      <h3 style="flex: auto">Collection ({{bottles.length}})</h3>
+      <h3 class="Add" ng-click="addPressed()">+</h3>
     </header>
     <ul class="w3-ul">
       <li ng-repeat="x in bottles" class="w3-padding-16" ng-click="itemSelected(x)">{{x.name}}<span class="w3-right" style="font-size: xx-small">></span></li>
@@ -45,6 +46,40 @@
     <hr>
     <div ng-if="selection.purchaseGeoLocation !== undefined || selection.breweryGeoLocation !== undefined" class="w3-padding-16 info-container" style="min-height: 300px; height: 50%">
       <div id="map" style="height: 100%; width: 100%;"></div>
+    </div>
+  </div>
+  <div ng-if="addNew == true" class="Info">
+    <header class="w3-container w3-light-grey w3-padding-16">
+        <h3>New Bottle<span ng-click="close()" ng-if="compact" class="w3-right close">x</span></h3>
+    </header>
+    <div class="New">
+      <form>
+        Name:<br>
+        <input type="text" name="name">
+        <br>
+        Purchase Date:<br>
+        <input type="date" name="purchaseDate">
+        <br>
+        Rating:<br>
+        <input type="number" name="rating" step="0.5" min="0.0" max="5.0">
+        <br>
+        Sugars (grams per 12 oz):<br>
+        <input type="number" name="sugars">
+        <br>
+        Purchase Location:<br>
+        <input type="search" name="purchaseLocation">
+        <br>
+        Brewery Location:<br>
+        <input type="search" name="breweyLocation">
+        <br>
+        Notes:<br>
+        <input type="text" name="notes">
+        <br>
+        Photo:<br>
+        <input type="file" name="image">
+        <br><br>
+        <input type="submit">
+      </form>
     </div>
   </div>
 </div>

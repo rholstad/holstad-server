@@ -32,6 +32,18 @@
   flex: 1;
 }
 
+.New {
+  margin-left: 12px;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+.Add:hover {
+  cursor: pointer;
+}
+
 .info-container {
   width: 100%;
   display: flex;
